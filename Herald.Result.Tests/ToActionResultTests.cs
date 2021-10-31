@@ -13,7 +13,7 @@ namespace Herald.Result.Tests
     public class ToActionResultTests
     {
         [Fact]
-        public async Task ShouldConvertToActionResult()
+        public async Task ShouldConvertToOk()
         {
             //Arrange
             var result = Task.FromResult(ResultStatus.Sucess());
@@ -23,10 +23,39 @@ namespace Herald.Result.Tests
 
             //Assert
             Assert.IsAssignableFrom<IActionResult>(actionResult);
+            Assert.IsType<OkResult>(actionResult);
         }
 
         [Fact]
-        public async Task ShouldConvertToActionResultOfType()
+        public async Task ShouldConvertToBadRequest()
+        {
+            //Arrange
+            var result = Task.FromResult(ResultStatus.Fail("Fail"));
+
+            //Act
+            var actionResult = await result.ToActionResult();
+
+            //Assert
+            Assert.IsAssignableFrom<IActionResult>(actionResult);
+            Assert.IsType<BadRequestObjectResult>(actionResult);
+        }
+
+        [Fact]
+        public async Task ShouldConvertToNotFound()
+        {
+            //Arrange
+            var result = Task.FromResult(ResultStatus.NotFound("NotFound"));
+
+            //Act
+            var actionResult = await result.ToActionResult();
+
+            //Assert
+            Assert.IsAssignableFrom<IActionResult>(actionResult);
+            Assert.IsType<NotFoundObjectResult>(actionResult);
+        }
+
+        [Fact]
+        public async Task ShouldConvertResultOfTypeToOk()
         {
             //Arrange
             var obj = new object();
@@ -37,6 +66,7 @@ namespace Herald.Result.Tests
 
             //Assert
             Assert.IsAssignableFrom<IActionResult>(actionResult);
+            Assert.IsType<OkObjectResult>(actionResult);
         }
     }
 }
