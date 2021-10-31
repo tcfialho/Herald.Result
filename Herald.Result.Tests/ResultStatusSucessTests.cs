@@ -25,14 +25,16 @@ namespace Herald.Result.Tests
         public void ShouldReturnValue()
         {
             //Arrange
-            var obj = new { Teste = "test" };
+            var obj = new object();
 
             //Act
-            var result = ResultStatus.Sucess(obj);
+            var result = (Sucess<object>)ResultStatus.Sucess(obj);
 
             //Assert
             Assert.True(result.HasValue());
-            Assert.Equal(obj, result.GetValue());            
+            Assert.Equal(obj, result.GetValue());
+            Assert.Equal(obj, result.Value);
+            Assert.Equal(Status.Sucess, result.Status);
         }
     }
 }

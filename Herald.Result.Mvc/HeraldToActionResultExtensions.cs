@@ -33,8 +33,6 @@ namespace Herald.Result.Mvc
                     return new NotFoundObjectResult(notfound.Message);
                 case Fail fail:
                     return new BadRequestObjectResult(fail.Message);
-                case Sucess<T> sucess when !sucess.HasValue():
-                    return new OkResult();
             }
 
             return new OkObjectResult(result.GetValue());

@@ -28,11 +28,13 @@ namespace Herald.Result.Tests
             var obj = "test";
 
             //Act
-            var result = ResultStatus.NotFound(obj);
+            var result = (NotFound)ResultStatus.NotFound(obj);
 
             //Assert
             Assert.True(result.HasValue());
-            Assert.Equal(obj, result.GetValue());            
+            Assert.Equal(obj, result.GetValue());
+            Assert.Equal(obj, result.Message);
+            Assert.Equal(Status.NotFound, result.Status);
         }
     }
 }
