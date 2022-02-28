@@ -17,9 +17,9 @@ namespace Herald.Result.Mvc
                 case NotFound notfound:
                     return new NotFoundObjectResult(new { notfound.Message });
                 case Fail fail:
-                    return new ObjectResult(new { fail.Message }) { StatusCode = (int)onSucess };
+                    return new ObjectResult(new { fail.Message }) { StatusCode = (int)onFail };
                 case Sucess sucess when !sucess.HasValue():
-                    return new ObjectResult(null) { StatusCode = (int)onFail };
+                    return new ObjectResult(null) { StatusCode = (int)onSucess };
             }
 
             return new OkObjectResult(result.GetValue());
