@@ -24,8 +24,8 @@ namespace Herald.Result.Tests
 
             //Assert
             Assert.IsAssignableFrom<IActionResult>(actionResult);
-            Assert.IsType<ObjectResult>(actionResult);
-            Assert.Equal((int)HttpStatusCode.OK, ((ObjectResult)actionResult).StatusCode);
+            Assert.IsType<StatusCodeResult>(actionResult);
+            Assert.Equal((int)HttpStatusCode.OK, ((StatusCodeResult)actionResult).StatusCode);
         }
 
         [Fact]

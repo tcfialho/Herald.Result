@@ -19,7 +19,7 @@ namespace Herald.Result.Mvc
                 case Fail fail:
                     return new ObjectResult(new { fail.Message }) { StatusCode = (int)onFail };
                 case Sucess sucess when !sucess.HasValue():
-                    return new ObjectResult(null) { StatusCode = (int)onSucess };
+                    return new StatusCodeResult((int)onSucess);
             }
 
             return new OkObjectResult(result.GetValue());
