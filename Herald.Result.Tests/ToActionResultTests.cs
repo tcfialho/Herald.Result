@@ -7,6 +7,7 @@ using Xunit;
 using Herald.Result.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Herald.Result.Tests
 {
@@ -23,7 +24,8 @@ namespace Herald.Result.Tests
 
             //Assert
             Assert.IsAssignableFrom<IActionResult>(actionResult);
-            Assert.IsType<OkResult>(actionResult);
+            Assert.IsType<ObjectResult>(actionResult);
+            Assert.Equal((int)HttpStatusCode.OK, ((ObjectResult)actionResult).StatusCode);
         }
 
         [Fact]
@@ -37,7 +39,8 @@ namespace Herald.Result.Tests
 
             //Assert
             Assert.IsAssignableFrom<IActionResult>(actionResult);
-            Assert.IsType<BadRequestObjectResult>(actionResult);
+            Assert.IsType<ObjectResult>(actionResult);
+            Assert.Equal((int)HttpStatusCode.BadRequest, ((ObjectResult)actionResult).StatusCode);
         }
 
         [Fact]
@@ -66,7 +69,8 @@ namespace Herald.Result.Tests
 
             //Assert
             Assert.IsAssignableFrom<IActionResult>(actionResult);
-            Assert.IsType<OkObjectResult>(actionResult);
+            Assert.IsType<ObjectResult>(actionResult);
+            Assert.Equal((int)HttpStatusCode.OK, ((ObjectResult)actionResult).StatusCode);
         }
     }
 }
