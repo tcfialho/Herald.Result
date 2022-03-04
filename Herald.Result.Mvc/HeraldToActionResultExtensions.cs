@@ -1,8 +1,7 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Herald.Result.Mvc
 {
@@ -12,32 +11,30 @@ namespace Herald.Result.Mvc
         {
             var result = await taskResult;
 
-            switch (result)
+            switch (result.Status)
             {
-                case NotFound notfound:
-                    return new NotFoundObjectResult(new { notfound.Message });
-                case Fail fail:
-                    return new ObjectResult(new { fail.Message }) { StatusCode = (int)onFail };
-                case Sucess sucess when !sucess.HasValue():
-                    return new StatusCodeResult((int)onSucess);
+                case Status.Fail:
+                    return new ObjectResult(new { result.Message }) { StatusCode = (int)onFail };
+                case Status.NotFound:
+                    return new NotFoundObjectResult(new { result.Message });
             }
 
-            return new OkObjectResult(result.GetValue());
+            return new StatusCodeResult((int)onSucess);
         }
 
         public static async Task<IActionResult> ToActionResult<T>(this Task<Result<T>> taskResult, HttpStatusCode onSucess = HttpStatusCode.OK, HttpStatusCode onFail = HttpStatusCode.BadRequest) where T : class
         {
             var result = await taskResult;
 
-            switch (result)
+            switch (result.Status)
             {
-                case NotFound notfound:
-                    return new NotFoundObjectResult(new { notfound.Message });
-                case Fail fail:
-                    return new ObjectResult(new { fail.Message }) { StatusCode = (int)onFail };
+                case Status.Fail:
+                    return new ObjectResult(new { result.Message }) { StatusCode = (int)onFail };
+                case Status.NotFound:
+                    return new NotFoundObjectResult(new { result.Message });
             }
 
-            return new ObjectResult(result.GetValue()) { StatusCode = (int)onSucess };
+            return new ObjectResult(result.Data) { StatusCode = (int)onSucess };
         }
     }
 }

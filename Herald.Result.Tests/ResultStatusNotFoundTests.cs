@@ -1,6 +1,3 @@
-using System;
-
-using Microsoft.AspNetCore.Mvc;
 
 using Xunit;
 
@@ -18,7 +15,6 @@ namespace Herald.Result.Tests
 
             //Assert
             Assert.Equal(Status.NotFound, result.Status);
-            Assert.IsType<NotFound>(result);
         }
 
         [Fact]
@@ -28,13 +24,11 @@ namespace Herald.Result.Tests
             var obj = "test";
 
             //Act
-            var result = (NotFound)ResultStatus.NotFound(obj);
+            var result = ResultStatus.NotFound(obj);
 
             //Assert
-            Assert.True(result.HasValue());
-            Assert.Equal(obj, result.GetValue());
-            Assert.Equal(obj, result.Message);
             Assert.Equal(Status.NotFound, result.Status);
+            Assert.Equal(obj, result.Message);
         }
     }
 }

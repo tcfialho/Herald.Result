@@ -1,6 +1,3 @@
-using System;
-
-using Microsoft.AspNetCore.Mvc;
 
 using Xunit;
 
@@ -18,7 +15,6 @@ namespace Herald.Result.Tests
 
             //Assert
             Assert.Equal(Status.Fail, result.Status);
-            Assert.IsType<Fail>(result);
         }
 
         [Fact]
@@ -28,13 +24,11 @@ namespace Herald.Result.Tests
             var obj = "test";
 
             //Act
-            var result = (Fail)ResultStatus.Fail(obj);
+            var result = ResultStatus.Fail(obj);
 
             //Assert
-            Assert.True(result.HasValue());
-            Assert.Equal(obj, result.GetValue());
-            Assert.Equal(obj, result.Message);
             Assert.Equal(Status.Fail, result.Status);
+            Assert.Equal(obj, result.Message);
         }
     }
 }
